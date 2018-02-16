@@ -67,8 +67,8 @@ fe06ab (HEAD -> odcs-omits-composeid-in-autorebuild, origin/master, origin/HEAD 
 # Now use this reference type, e.g. 5 commits back
 git show HEAD@{5}
 
-# Moar magics ---------V (literal '{')
-git show {branch_name}@{yesterday}
+# Moar magics
+git show {branch_name}@{yesterday}  # date magics need literal '{}'
 
 # Overwrite something in this branch using content from another branch
 git checkout {remote_name}/{branch_name} {file_or_dir}
