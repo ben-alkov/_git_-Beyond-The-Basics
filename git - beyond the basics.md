@@ -38,8 +38,7 @@ git log {remote}/{other_branch_name}..HEAD
 # Show commits on either branch but *not* on both.
 git log {other_branch_name}...{branch_name}
 
-# Nice one specifically with `log`:
-# Prints '<' or '>' to show which branch a commit comes from
+# NICE: Prints '<' or '>' to show which branch a commit comes from
 git log --left-right {other_branch_name}...{branch_name}
 ```
 
@@ -48,7 +47,7 @@ git log --left-right {other_branch_name}...{branch_name}
 # set remote:
 git remote add {remote_name}
 
-# Use HEAD for {branch_name}
+# Uses HEAD for {branch_name}
 git show {branch_name}
 
 # See hash for {branch_name}'s HEAD
