@@ -7,7 +7,7 @@
 #### Single
 
 - `^` - First parent **branch** of a **reference** - travel by breadth
-- `^{Xth}` - Xth parent **branch** of a **reference**
+- `^{Nth}` - Nth parent **branch** of a **reference**
 - `~` - Also first parent of a **reference**, but should really always be previous commit. HOWEVER...
 - `~{X} - ...steps back X "parents" i.e. commits - travel by depth
 
@@ -80,7 +80,8 @@ git show HEAD@{5}
 # Moar magics
 git show {branch_name}@{yesterday}  # date magics need literal '{}'
 
-# Overwrite something in this branch using content from another branch
+# Overwrite something in this branch using content from another branch...
+# (copy content from another branch, but NO HISTORY IS COPIED, so *nothing* like `reset`)
 git checkout {remote_name}/{branch_name} {file_or_dir}
 
 # ...or even a specific commit
@@ -88,6 +89,9 @@ git checkout {commit_hash} {relative_path_to_file_or_dir}
 
 # Hard reset a specific file
 git checkout HEAD -- {file}
+
+# diff anything
+git diff {remote_name}/{branch_name}:path/to/foo.bar {other_remote_name}/{other_branch_name}:path/to/deeper/baz.bar
 ```
 
 ### Commit magic
@@ -173,3 +177,26 @@ git push {remote_name} :{branch_name} {new_name}
 # fix remote tracking branch
 git push {remote_name} -u {new_name}
 ```
+
+## Nice aliases (for .gitconfig)
+
+```config
+patch = "!git diff --no-pager --no-color #"
+dsf = "!git [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX #"
+mr = "!git fetch \"$1\" merge-requests/\"$2\"/head:mr-\"$1\"-\"$2\" && git checkout mr-\"$1\"-\"$2\" #"
+con = config --global -l
+co = checkout
+s = status -s -b
+pu = push
+fa = fetch --all
+bc = log --oneline --abbrev-commit master..
+l = "!git log --pretty=format:\"%C(auto)%h %s %C(#555555)/ %aN @ %ar\" #"
+st = stash
+sl = stash list
+cm = commit -am
+br = checkout -b
+pl = "!git fa && git merge upstream/master --ff-only #"
+rei = "![ x$# != x1 ] && echo \"commit-ish required\" >&2 || git rebase -i HEAD~\"$1\" #"
+```
+
+`dsf` requires [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy)
